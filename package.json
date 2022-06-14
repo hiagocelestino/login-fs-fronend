@@ -14,6 +14,7 @@
     "@types/react": "^18.0.10",
     "@types/react-dom": "^18.0.5",
     "axios": "^0.27.2",
+    "jsonwebtoken": "^8.5.1",
     "material-icons": "^1.11.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

@@ -1,11 +1,11 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import http from "../../http";
+import { tokenService } from "../../services/authService";
+import { userService } from "../../services/userService";
 
-export default function Cadastro(){
+export default function EditarDados(){
     const [userNome, setUserNome ] = useState('');
-    const [userSenha, setUserSenha] = useState('');
     const [userPis, setUserPis] = useState('');
     const [userCpf, setUserCpf ] = useState('');
     const [userEmail, setUserEmail ] = useState('');
@@ -17,36 +17,60 @@ export default function Cadastro(){
     const [enderecoPais, setEnderecoPais ] = useState('');
     const [enderecoRua, setEnderecoRua ] = useState('');
 
-    const cadastrarUsuario = (evento: React.FormEvent<HTMLFormElement>) => {
-        evento.preventDefault();
-        let dados = {
-            nome: userNome,
-            senha: userSenha,
-            pis: userPis,
-            cpf: userCpf,
-            email: userEmail,
-            endereco: {
-                cep: enderecoCep,
-                complemento: enderecoComplemento,
-                estado: enderecoEstado,
-                municipio: enderecoMunicipio,
-                numero: enderecoNumero,
-                pais: enderecoPais,
-                rua: enderecoRua 
+    useEffect(()=>{
+        http.get('/usuario',{
+            headers: {
+                'Authorization': `${tokenService.isAuthenticated() ? tokenService.get() : ''} `,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
-        }
-        http.post('/usuario', dados )
-        .then( resposta => {
-            alert(resposta.data.mensagem);
-            console.log("teste");
-            <Navigate to="/" />
         })
-    }
+        .then(resposta => {
+            console.log(resposta)
+            if(resposta.data){
+                let data = resposta.data;
+                    setUserNome(data.nome);
+                    setUserPis(data.pis);
+                    setUserCpf(data.cpf)
+                    setUserEmail(data.email)
+                    setEnderecoCep(data.endereco.cep)
+                    setEnderecoComplemento(data.endereco.complemento)
+                    setEnderecoEstado(data.endereco.estado)
+                    setEnderecoMunicipio(data.endereco.municipio)
+                    setEnderecoNumero(data.endereco.numero)
+                    setEnderecoPais(data.endereco.pais)
+                    setEnderecoRua(data.endereco.rua)    
+                }
+            })
+        }, []);
+
+        const atualizarDados = ()=>{
+            let dados = {
+                nome: userNome,
+                pis: userPis,
+                cpf: userCpf,
+                email: userEmail,
+                endereco: {
+                    cep: enderecoCep,
+                    complemento: enderecoComplemento,
+                    estado: enderecoEstado,
+                    municipio: enderecoMunicipio,
+                    numero: enderecoNumero,
+                    pais: enderecoPais,
+                    rua: enderecoRua 
+                }
+            }
+            http.put('/usuario', dados)
+            .then( resposta => {
+                alert(resposta.data.mensagem);
+            })
+        }
 
     return(
-        <Box component="form" sx={{ width: '100%' }} onSubmit={cadastrarUsuario} >
+        <Box component="form" sx={{ width: '100%' }} onSubmit={atualizarDados} >
 
             <TextField
+                value={userNome}
                 onChange={evento => setUserNome(evento.target.value)}
                 id="standard-basic"
                 label="Nome"
@@ -54,19 +78,8 @@ export default function Cadastro(){
                 fullWidth
                 margin="dense"
             />
-
             <TextField
-                onChange={evento => setUserSenha(evento.target.value)}
-                id="standard-password-input"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                variant="standard"
-                fullWidth
-                margin="dense"
-            />
-            
-            <TextField
+                value={userEmail}
                 onChange={evento => setUserEmail(evento.target.value)}
                 id="standard-basic"
                 label="Email"
@@ -75,6 +88,7 @@ export default function Cadastro(){
                 margin="dense"
             />
             <TextField
+                value={userCpf}
                 onChange={evento => setUserCpf(evento.target.value)}
                 id="standard-basic"
                 label="CPF"
@@ -83,6 +97,7 @@ export default function Cadastro(){
                 margin="dense"
             />
             <TextField
+                value={userPis}
                 onChange={evento => setUserPis(evento.target.value)}
                 id="standard-basic"
                 label="Pis"
@@ -94,6 +109,7 @@ export default function Cadastro(){
             <Typography component="h3"> Dados de Endereço</Typography>
 
             <TextField
+                value={enderecoPais}
                 onChange={evento => setEnderecoPais(evento.target.value)}
                 id="standard-basic"
                 label="País"
@@ -102,6 +118,7 @@ export default function Cadastro(){
                 margin="dense"
             />
             <TextField
+                value={enderecoEstado}
                 onChange={evento => setEnderecoEstado(evento.target.value)}
                 id="standard-basic"
                 label="Estado"
@@ -110,6 +127,7 @@ export default function Cadastro(){
                 margin="dense"
             />
             <TextField
+                value={enderecoMunicipio}
                 onChange={evento => setEnderecoMunicipio(evento.target.value)}
                 id="standard-basic"
                 label="Município"
@@ -118,6 +136,7 @@ export default function Cadastro(){
                 margin="dense"
             />
             <TextField
+                value={enderecoCep}
                 onChange={evento => setEnderecoCep(evento.target.value)}
                 id="standard-basic"
                 label="CEP"
@@ -126,6 +145,7 @@ export default function Cadastro(){
                 margin="dense"
             />
             <TextField
+                value={enderecoRua}
                 onChange={evento => setEnderecoRua(evento.target.value)}
                 id="standard-basic"
                 label="Rua"
@@ -134,6 +154,7 @@ export default function Cadastro(){
                 margin="dense"
             />
             <TextField
+                value={enderecoNumero}
                 onChange={evento => setEnderecoNumero(evento.target.value)}
                 id="standard-basic"
                 label="Número"
@@ -142,6 +163,7 @@ export default function Cadastro(){
                 margin="dense"
             />
             <TextField
+                value={enderecoComplemento}
                 onChange={evento => setEnderecoComplemento(evento.target.value)}
                 id="standard-basic"
                 label="Complemento"
@@ -150,7 +172,7 @@ export default function Cadastro(){
                 margin="dense"
             />
             
-            <Button sx={{ marginTop: 1 }} type="submit" fullWidth variant="outlined">Cadastrar</Button>
+            <Button sx={{ marginTop: 1 }} type="submit" fullWidth variant="outlined">Atualizar</Button>
         </Box>
     );
 }

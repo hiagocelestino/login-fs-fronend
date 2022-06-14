@@ -1,7 +1,13 @@
 import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { userService } from "../../services/userService";
 
-export default function Saudacao(){
+interface Props{
+    usuario: string | null
+}
+
+export default function Saudacao({usuario}:Props){
     return(
-        <Typography component="h1" variant="h6"> Olá, Visitante!</Typography>
+        <Typography component="h1" variant="h6"> Olá, {usuario ? usuario : 'Visitante'}!</Typography>
     );
 }
