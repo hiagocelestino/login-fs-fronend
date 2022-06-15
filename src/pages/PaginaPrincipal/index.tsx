@@ -1,4 +1,4 @@
-import { Box, Button, Link, TextField, Typography } from '@mui/material';
+import { Box} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { userService } from '../../services/userService';
@@ -17,7 +17,7 @@ export default function PaginaPrincipal(){
 
     return(
         <section className={styles.container}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexGrow: 1}}>
                 <Saudacao usuario={usuario} />
                 <Outlet />
             </Box>

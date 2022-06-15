@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import http from "../../http";
 
 export default function Cadastro(){
@@ -16,6 +16,7 @@ export default function Cadastro(){
     const [enderecoNumero, setEnderecoNumero ] = useState('');
     const [enderecoPais, setEnderecoPais ] = useState('');
     const [enderecoRua, setEnderecoRua ] = useState('');
+    const navigate = useNavigate();
 
     const cadastrarUsuario = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault();
@@ -38,8 +39,7 @@ export default function Cadastro(){
         http.post('/usuario', dados )
         .then( resposta => {
             alert(resposta.data.mensagem);
-            console.log("teste");
-            <Navigate to="/" />
+            navigate('/');
         })
     }
 
@@ -73,6 +73,8 @@ export default function Cadastro(){
                 variant="standard"
                 fullWidth
                 margin="dense"
+                helperText="nome@email.com"
+                inputProps={{ inputMode: 'numeric', pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$*' }}
             />
             <TextField
                 onChange={evento => setUserCpf(evento.target.value)}
@@ -81,6 +83,8 @@ export default function Cadastro(){
                 variant="standard"
                 fullWidth
                 margin="dense"
+                helperText="Insira somente números"
+                inputProps={{ inputMode: 'numeric', pattern: '^(\d{3})\.?(\d{3})\.?(\d{3})\-?(\d{2}$)$|^(\d{2})\.?(\d{3})\.?(\d{3})\/?([0-1]{4})\-?(\d{2})$*' }}
             />
             <TextField
                 onChange={evento => setUserPis(evento.target.value)}
@@ -89,9 +93,11 @@ export default function Cadastro(){
                 variant="standard"
                 fullWidth
                 margin="dense"
+                helperText="Insira somente números"
+                inputProps={{ inputMode: 'numeric', pattern: '/[0-9]{11}*' }}
             />
 
-            <Typography component="h3"> Dados de Endereço</Typography>
+            <Typography sx={{mt:2}} component="h2"> Dados de Endereço</Typography>
 
             <TextField
                 onChange={evento => setEnderecoPais(evento.target.value)}

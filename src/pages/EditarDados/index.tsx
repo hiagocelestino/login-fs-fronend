@@ -1,10 +1,11 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import http from "../../http";
 import { tokenService } from "../../services/authService";
-import { userService } from "../../services/userService";
 
 export default function EditarDados(){
+    const navigate = useNavigate();
     const [userNome, setUserNome ] = useState('');
     const [userPis, setUserPis] = useState('');
     const [userCpf, setUserCpf ] = useState('');
@@ -26,7 +27,6 @@ export default function EditarDados(){
             }
         })
         .then(resposta => {
-            console.log(resposta)
             if(resposta.data){
                 let data = resposta.data;
                     setUserNome(data.nome);
@@ -44,7 +44,9 @@ export default function EditarDados(){
             })
         }, []);
 
-        const atualizarDados = ()=>{
+        const atualizarDados = (evento: React.FormEvent<HTMLFormElement>)=>{
+            evento.preventDefault();
+
             let dados = {
                 nome: userNome,
                 pis: userPis,
@@ -60,9 +62,16 @@ export default function EditarDados(){
                     rua: enderecoRua 
                 }
             }
-            http.put('/usuario', dados)
+            http.put('/usuario', dados, {
+                headers: {
+                    'Authorization': `${tokenService.isAuthenticated() ? tokenService.get() : ''} `,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
             .then( resposta => {
                 alert(resposta.data.mensagem);
+                navigate("/");
             })
         }
 

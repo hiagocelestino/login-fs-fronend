@@ -1,7 +1,6 @@
-import { Button, Link, Typography} from "@mui/material";
+import { Box, Button, Link, Typography} from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 import http from "../../http";
-import header from "../../http/header";
 import { tokenService } from "../../services/authService";
 import { userService } from "../../services/userService";
 
@@ -30,10 +29,10 @@ export default function Dados(){
     }
 
     return(
-        <>
-            <Button variant="outlined" onClick={editarDados}>Editar Dados</Button>
-            <Button variant="outlined" onClick={logout} color="error">Logout</Button>
-            <Typography component="h3"><Link onClick={deletarConta} underline="hover">Deletar conta</Link></Typography>
-        </>
+        <Box component="div" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
+            <Button sx={{my:5}} variant="outlined" onClick={editarDados}>Editar Dados</Button>
+            <Button sx={{my:5}} variant="outlined" onClick={logout} color="error">Logout</Button>
+            <Typography sx={{my:5}} component="h3"><Link onClick={deletarConta} underline="hover">Deletar conta</Link></Typography>
+        </Box>
     );
 }
