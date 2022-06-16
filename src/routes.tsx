@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate} from 'react-router-dom';
 import Cadastro from './pages/Cadastro';
 import Dados from './pages/Dados';
@@ -12,6 +13,7 @@ interface Autenticacao{
 }
 
 export default function AppRouter(){
+
     const PrivateRoute = ({children }:Autenticacao) => {
         return tokenService.isAuthenticated() ? children : <Navigate to="/" />;
     };

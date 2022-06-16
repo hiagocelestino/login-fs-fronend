@@ -6,19 +6,20 @@ import Saudacao from '../Saudacao';
 import styles from './PaginaPrincipal.module.scss';
 
 export default function PaginaPrincipal(){
-    const [usuario, setUsuario] = useState('');
+    const [nome, setNome] = useState<string|null>('');
 
-    let nome = userService.getNome();
+    let nomeUsuario = userService.getNome();
+
     useEffect(()=>{
-        if(nome){
-            setUsuario(nome);
+        if(nomeUsuario){
+            setNome(nomeUsuario);
         }
-    }, [nome])
+    }, [nomeUsuario])
 
     return(
         <section className={styles.container}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexGrow: 1}}>
-                <Saudacao usuario={usuario} />
+                <Saudacao nome={nome} />
                 <Outlet />
             </Box>
         </section>

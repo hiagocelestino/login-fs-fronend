@@ -1,11 +1,12 @@
 import { Typography } from "@mui/material";
 
 interface Props{
-    usuario: string | null
+    nome: string | null
 }
 
-export default function Saudacao({usuario}:Props){
+export default function Saudacao({nome}:Props){
+    
     return(
-        <Typography   component="h1" variant="h6"> Olá, {usuario ? usuario : 'Visitante'}!</Typography>
+        <Typography   component="h1" variant="h6"> Olá, {nome ? nome : 'Visitante'}!</Typography>
     );
 }

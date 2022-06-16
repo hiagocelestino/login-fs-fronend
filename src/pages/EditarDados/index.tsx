@@ -7,9 +7,6 @@ import { tokenService } from "../../services/authService";
 export default function EditarDados(){
     const navigate = useNavigate();
     const [userNome, setUserNome ] = useState('');
-    const [userPis, setUserPis] = useState('');
-    const [userCpf, setUserCpf ] = useState('');
-    const [userEmail, setUserEmail ] = useState('');
     const [enderecoCep, setEnderecoCep ] = useState('');
     const [enderecoComplemento, setEnderecoComplemento ] = useState('');
     const [enderecoEstado, setEnderecoEstado ] = useState('');
@@ -30,9 +27,6 @@ export default function EditarDados(){
             if(resposta.data){
                 let data = resposta.data;
                     setUserNome(data.nome);
-                    setUserPis(data.pis);
-                    setUserCpf(data.cpf)
-                    setUserEmail(data.email)
                     setEnderecoCep(data.endereco.cep)
                     setEnderecoComplemento(data.endereco.complemento)
                     setEnderecoEstado(data.endereco.estado)
@@ -49,9 +43,6 @@ export default function EditarDados(){
 
             let dados = {
                 nome: userNome,
-                pis: userPis,
-                cpf: userCpf,
-                email: userEmail,
                 endereco: {
                     cep: enderecoCep,
                     complemento: enderecoComplemento,
@@ -83,33 +74,6 @@ export default function EditarDados(){
                 onChange={evento => setUserNome(evento.target.value)}
                 id="standard-basic"
                 label="Nome"
-                variant="standard"
-                fullWidth
-                margin="dense"
-            />
-            <TextField
-                value={userEmail}
-                onChange={evento => setUserEmail(evento.target.value)}
-                id="standard-basic"
-                label="Email"
-                variant="standard"
-                fullWidth
-                margin="dense"
-            />
-            <TextField
-                value={userCpf}
-                onChange={evento => setUserCpf(evento.target.value)}
-                id="standard-basic"
-                label="CPF"
-                variant="standard"
-                fullWidth
-                margin="dense"
-            />
-            <TextField
-                value={userPis}
-                onChange={evento => setUserPis(evento.target.value)}
-                id="standard-basic"
-                label="Pis"
                 variant="standard"
                 fullWidth
                 margin="dense"

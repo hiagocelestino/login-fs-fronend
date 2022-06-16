@@ -16,6 +16,10 @@ export default function Login(){
         tokenService.isAuthenticated() ? navigate("/dados") : setMensagem(''); 
     }, [])
 
+    const limpaMensagem = () => {
+        setMensagem('');
+    }
+
     const logar = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault();
 
@@ -26,8 +30,7 @@ export default function Login(){
         .then(resposta => {
             if(resposta.data.token){
                 tokenService.save(resposta.data.token);
-                if(resposta.data.id){
-                    userService.save(String(resposta.data.id));
+                if(resposta.data.nome){
                     userService.saveNome(resposta.data.nome);
                 }
                 navigate("/dados");
@@ -45,6 +48,7 @@ export default function Login(){
 
             <TextField
                 onChange={evento => setLogin(evento.target.value)}
+                onClick={limpaMensagem}
                 id="standard-basic"
                 label="E-mail/CPF/Pis"
                 variant="standard"

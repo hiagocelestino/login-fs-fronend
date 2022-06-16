@@ -36,10 +36,14 @@ export default function Cadastro(){
                 rua: enderecoRua 
             }
         }
-        http.post('/usuario', dados )
+        
+        http.post('/usuario', dados)
         .then( resposta => {
             alert(resposta.data.mensagem);
             navigate('/');
+        })
+        .catch(response =>{
+            alert(response.response.data.mensagem);
         })
     }
 
@@ -74,7 +78,7 @@ export default function Cadastro(){
                 fullWidth
                 margin="dense"
                 helperText="nome@email.com"
-                inputProps={{ inputMode: 'numeric', pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$*' }}
+                inputProps={{ inputMode: 'numeric', pattern: '/.+\\@.+\\..+' }}
             />
             <TextField
                 onChange={evento => setUserCpf(evento.target.value)}
@@ -84,7 +88,7 @@ export default function Cadastro(){
                 fullWidth
                 margin="dense"
                 helperText="Insira somente números"
-                inputProps={{ inputMode: 'numeric', pattern: '^(\d{3})\.?(\d{3})\.?(\d{3})\-?(\d{2}$)$|^(\d{2})\.?(\d{3})\.?(\d{3})\/?([0-1]{4})\-?(\d{2})$*' }}
+                inputProps={{ inputMode: 'numeric', pattern: '^(\\d{0,11})$' }}
             />
             <TextField
                 onChange={evento => setUserPis(evento.target.value)}
@@ -94,7 +98,7 @@ export default function Cadastro(){
                 fullWidth
                 margin="dense"
                 helperText="Insira somente números"
-                inputProps={{ inputMode: 'numeric', pattern: '/[0-9]{11}*' }}
+                inputProps={{ inputMode: 'numeric', pattern: '^(\\d{0,11})$' }}
             />
 
             <Typography sx={{mt:2}} component="h2"> Dados de Endereço</Typography>
@@ -130,6 +134,8 @@ export default function Cadastro(){
                 variant="standard"
                 fullWidth
                 margin="dense"
+                helperText="Insira somente números"
+                inputProps={{ inputMode: 'numeric', pattern: '^(\\d{0,8})$' }}
             />
             <TextField
                 onChange={evento => setEnderecoRua(evento.target.value)}

@@ -1,5 +1,5 @@
 import { Box, Button, Link, Typography} from "@mui/material";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import http from "../../http";
 import { tokenService } from "../../services/authService";
 import { userService } from "../../services/userService";
@@ -23,8 +23,9 @@ export default function Dados(){
             }
         })
         .then( resposta => {
+            userService.logout();
             alert(resposta.data.mensagem);
-            <Navigate to="/" />
+            navigate("/")
         })
     }
 
